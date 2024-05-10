@@ -1,6 +1,21 @@
 @college_record_keeper_backend_HostAddress = http://localhost:5151
 
-GET {{college_record_keeper_backend_HostAddress}}/weatherforecast/
+###
+GET {{college_record_keeper_backend_HostAddress}}/student/2
 Accept: application/json
 
 ###
+POST {{college_record_keeper_backend_HostAddress}}/student
+Content-Type: application/json
+
+{
+    "id":5
+}
+
+###
+POST {{college_record_keeper_backend_HostAddress}}/student
+Content-Type: application/json
+
+{
+    "id":6
+}

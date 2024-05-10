@@ -2,11 +2,10 @@ using CRK.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddDbContext<CollegeContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("CollegeContext"))
-);
 builder.Services.AddControllers();
+builder.Services.AddDbContext<CollegeDbContext>(options =>
+    options.UseNpgsql(@"Host=localhost;Username=ajayk;Password=;Database=college")
+);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -18,10 +17,5 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
