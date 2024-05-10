@@ -1,17 +1,33 @@
-using System.Data.SqlTypes;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CRK.Models;
 
 public class Student
 {
-    // public SqlString FirstName { get; set; }
-    // public SqlString? MiddleName { get; set; }
-    // public SqlString LastName { get; set; }
-    // public SqlDouble CetPercentile { get; set; }
-    // public SqlDouble HscPercentage { get; set; }
-    // public SqlDouble SscPercentage { get; set; }
-    // public SqlDateTime Dob { get; set; }
-    // public SqlDateTime YearOfAdmission { get; set; }
-    // public readonly SqlGuid Id = Guid.NewGuid();
-    public int Id { get; set; }
+    [NotNull]
+    public required string FirstName { get; set; }
+    public string? MiddleName { get; set; }
+
+    [NotNull]
+    public required string LastName { get; set; }
+
+    [NotNull]
+    public double CetPercentile { get; set; }
+
+    [NotNull]
+    public double HscPercentage { get; set; }
+
+    [NotNull]
+    public double SscPercentage { get; set; }
+
+    [NotNull]
+    public DateTime Dob { get; set; }
+
+    [NotNull]
+    public DateTime YearOfAdmission { get; set; }
+
+    [NotNull]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public Guid Id { get; set; }
 }

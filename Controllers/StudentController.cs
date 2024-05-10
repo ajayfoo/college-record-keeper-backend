@@ -11,14 +11,21 @@ public class StudentController(CollegeDbContext context) : ControllerBase
     private readonly CollegeDbContext _context = context;
 
     [HttpGet("{id}")]
-    public Student? GetStudent(Guid id)
+    public ActionResult<Student> GetStudent(Guid id)
     {
-        return _context.Students.Find(id);
+        Student? student = _context.Students.Find(id);
+        if (student == null)
+        {
+            return NotFound();
+        }
+        return student;
     }
 
     [HttpPost]
     public async Task<ActionResult<Student>> AddStudent(Student student)
     {
+        student.Dob = student.Dob.ToUniversalTime();
+        student.YearOfAdmission = student.YearOfAdmission.ToUniversalTime();
         _context.Students.Add(student);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(AddStudent), new { id = student.Id }, student);
