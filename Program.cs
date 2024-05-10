@@ -3,9 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-builder.Services.AddDbContext<CollegeDbContext>(options =>
-    options.UseNpgsql(@"Host=localhost;Username=ajayk;Password=;Database=college")
-);
+
+var connectionString =
+    builder.Configuration.GetConnectionString("College")
+    + builder.Configuration["CollegeDbPassword"];
+
+builder.Services.AddDbContext<CollegeDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
