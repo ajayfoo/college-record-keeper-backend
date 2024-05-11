@@ -17,3 +17,11 @@ Content-Type: application/json
     "dob":"2001-01-06T17:16:40",
     "yearOfAdmission":"2021-01-06T17:16:40"
 }
+
+###
+POST {{college_record_keeper_backend_HostAddress}}/achievementtype
+Content-Type: application/json
+
+{
+    "label":"foo"
+}
