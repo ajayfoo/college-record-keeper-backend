@@ -13,6 +13,7 @@ public class AchievementTypeController(CollegeDbContext context) : ControllerBas
     [HttpGet("{id}")]
     public ActionResult<AchievementType> GetAchievementType(Guid id)
     {
+        if (_context.AchievementTypes == null) return NotFound();
         AchievementType? achievementType = _context.AchievementTypes.Find(id);
         if (achievementType == null)
         {
@@ -26,6 +27,7 @@ public class AchievementTypeController(CollegeDbContext context) : ControllerBas
         AchievementType achievementType
     )
     {
+        if (_context.AchievementTypes == null) return NotFound();
         _context.AchievementTypes.Add(achievementType);
         await _context.SaveChangesAsync();
         return CreatedAtAction(

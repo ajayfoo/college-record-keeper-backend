@@ -5,7 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>college_record_keeper_backend</RootNamespace>
-    <UserSecretsId>74d8765b-575e-4b43-b357-9e9860668f13</UserSecretsId>
+		<UserSecretsId>74d8765b-575e-4b43-b357-9e9860668f13</UserSecretsId>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>

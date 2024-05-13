@@ -13,6 +13,7 @@ public class StudentController(CollegeDbContext context) : ControllerBase
     [HttpGet("{id}")]
     public ActionResult<Student> GetStudent(Guid id)
     {
+        if (_context.Students == null) return NotFound();
         Student? student = _context.Students.Find(id);
         if (student == null)
         {
@@ -26,6 +27,7 @@ public class StudentController(CollegeDbContext context) : ControllerBase
     {
         student.Dob = student.Dob.ToUniversalTime();
         student.YearOfAdmission = student.YearOfAdmission.ToUniversalTime();
+        if (_context.Students == null) return NotFound();
         _context.Students.Add(student);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(AddStudent), new { id = student.Id }, student);
