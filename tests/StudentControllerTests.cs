@@ -1,9 +1,12 @@
 namespace CRK.Tests;
 
+using System.Globalization;
 using System.Net.Http.Json;
+using System.Text.Json;
 using CRK.Models;
 using Microsoft.AspNetCore.Mvc.Testing;
 
+// all the rows in the table must be deleted after each test run
 public class StudentControllerTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _factory;
@@ -49,7 +52,43 @@ public class StudentControllerTests : IClassFixture<WebApplicationFactory<Progra
     public async void OnPost_NewStudentDataMustBeAdded(Student student)
     {
         var client = _factory.CreateClient();
-        var response = await client.PostAsJsonAsync("/studen", student);
+        var response = await client.PostAsJsonAsync("/student", student);
         response.EnsureSuccessStatusCode();
+    }
+
+    [Fact]
+    public async void OnGet_ExpectedStudentMustBeRetured()
+    {
+        var client = _factory.CreateClient();
+        Guid id = Guid.Parse("d62affb5-fd00-4a8c-b4d4-d93ef826cf9d");
+        Student expectedStudent = new Student()
+        {
+            FirstName = "Jill",
+            MiddleName = "James",
+            Id = id,
+            LastName = "Joe",
+            CetPercentile = 95.999,
+            HscPercentage = 69.12,
+            SscPercentage = 76.23,
+            Dob = DateTime
+                .ParseExact("2001-10-12", "yyyy-MM-dd", CultureInfo.InvariantCulture)
+                .ToUniversalTime(),
+            YearOfAdmission = DateTime
+                .ParseExact("2022-02-20", "yyyy-MM-dd", CultureInfo.InvariantCulture)
+                .ToUniversalTime()
+        };
+        var postResponse = await client.PostAsJsonAsync("/student", expectedStudent);
+        var responseStudentStream = await postResponse.Content.ReadAsStreamAsync();
+        var responseStudent = await JsonSerializer.DeserializeAsync<Student>(
+            responseStudentStream,
+            new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }
+        );
+        if (responseStudent == null)
+        {
+            Assert.Fail();
+        }
+        var response = await client.GetAsync("/student/" + responseStudent.Id.ToString());
+        response.EnsureSuccessStatusCode();
+        Assert.Equivalent(responseStudent, expectedStudent, strict: true);
     }
 }
