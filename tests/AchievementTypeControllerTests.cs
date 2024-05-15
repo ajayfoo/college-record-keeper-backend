@@ -24,7 +24,7 @@ public class AchievementTypeControllerTests : IClassFixture<WebApplicationFactor
 
     [Theory]
     [MemberData(nameof(Data))]
-    public async void OnPost_NewAchievementTypeDataMustBeAdded(AchievementType achievementType)
+    public async Task OnPost_NewAchievementTypeDataMustBeAdded(AchievementType achievementType)
     {
         var client = _factory.CreateClient();
         var response = await client.PostAsJsonAsync(uriStr, achievementType);
@@ -32,7 +32,7 @@ public class AchievementTypeControllerTests : IClassFixture<WebApplicationFactor
     }
 
     [Fact]
-    public async void OnGet_ExpectedAchievementTypeMustBeRetured()
+    public async Task OnGet_ExpectedAchievementTypeMustBeRetured()
     {
         var client = _factory.CreateClient();
         Guid id = Guid.NewGuid();

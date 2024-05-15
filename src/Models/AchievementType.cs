@@ -12,5 +12,5 @@ public class AchievementType
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
-    public ICollection<Achievement>? Achievements { get; set; }
+    public ICollection<Achievement> Achievements { get; } = new List<Achievement>();
 }

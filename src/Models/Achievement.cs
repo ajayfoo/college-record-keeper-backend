@@ -11,9 +11,7 @@ public class Achievement
     [NotNull]
     public required string Level { get; set; }
 
-    [NotNull]
-    public Guid AchievementTypeId { get; set; }
-    public AchievementType? AchievementType { get; set; }
+    public required Guid AchievementTypeId { get; set; }
 
     [NotNull]
     public required string Prize { get; set; }

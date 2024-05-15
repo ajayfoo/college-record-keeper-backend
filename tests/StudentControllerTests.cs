@@ -49,7 +49,7 @@ public class StudentControllerTests : IClassFixture<WebApplicationFactory<Progra
 
     [Theory]
     [MemberData(nameof(Data))]
-    public async void OnPost_NewStudentDataMustBeAdded(Student student)
+    public async Task OnPost_NewStudentDataMustBeAdded(Student student)
     {
         var client = _factory.CreateClient();
         var response = await client.PostAsJsonAsync("/student", student);
@@ -57,7 +57,7 @@ public class StudentControllerTests : IClassFixture<WebApplicationFactory<Progra
     }
 
     [Fact]
-    public async void OnGet_ExpectedStudentMustBeRetured()
+    public async Task OnGet_ExpectedStudentMustBeRetured()
     {
         var client = _factory.CreateClient();
         Guid id = Guid.NewGuid();
