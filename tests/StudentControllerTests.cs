@@ -60,7 +60,7 @@ public class StudentControllerTests : IClassFixture<WebApplicationFactory<Progra
     public async void OnGet_ExpectedStudentMustBeRetured()
     {
         var client = _factory.CreateClient();
-        Guid id = Guid.Parse("d62affb5-fd00-4a8c-b4d4-d93ef826cf9d");
+        Guid id = Guid.NewGuid();
         Student expectedStudent = new Student()
         {
             FirstName = "Jill",

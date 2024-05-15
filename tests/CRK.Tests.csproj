@@ -6,7 +6,8 @@
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
-    <IsTestProject>true</IsTestProject>
+		<IsTestProject>true</IsTestProject>
+		<NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
 
   <ItemGroup>
