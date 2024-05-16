@@ -1,6 +1,5 @@
 namespace CRK.Tests;
 
-using System.Globalization;
 using System.Net.Http.Json;
 using System.Text.Json;
 using CRK.Models;
@@ -23,8 +22,8 @@ public class StudentControllerTests : IClassFixture<WebApplicationFactory<Progra
                     CetPercentile = 95.999,
                     HscPercentage = 69.12,
                     SscPercentage = 76.23,
-                    Dob = DateTime.Parse("2001-10-12").ToUniversalTime(),
-                    YearOfAdmission = DateTime.Parse("2022-2-20").ToUniversalTime(),
+                    Dob = DateTime.Parse("2001-10-12"),
+                    YearOfAdmission = DateTime.Parse("2022-2-20"),
                 }
             },
             new object[]
@@ -36,8 +35,8 @@ public class StudentControllerTests : IClassFixture<WebApplicationFactory<Progra
                     CetPercentile = 75.3134,
                     HscPercentage = 39.39,
                     SscPercentage = 66.77,
-                    Dob = DateTime.Parse("999-10-12").ToUniversalTime(),
-                    YearOfAdmission = DateTime.Today.ToUniversalTime()
+                    Dob = DateTime.Parse("999-10-12"),
+                    YearOfAdmission = DateTime.Today,
                 }
             },
         };

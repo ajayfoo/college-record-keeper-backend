@@ -22,10 +22,20 @@ public class Student
     public double SscPercentage { get; set; }
 
     [NotNull]
-    public DateTime Dob { get; set; }
+    public DateTime Dob
+    {
+        get { return _dob; }
+        set { _dob = value.ToUniversalTime(); }
+    }
+    private DateTime _dob;
 
     [NotNull]
-    public DateTime YearOfAdmission { get; set; }
+    public DateTime YearOfAdmission
+    {
+        get { return _yearOfAdmission; }
+        set { _yearOfAdmission = value.ToUniversalTime(); }
+    }
+    private DateTime _yearOfAdmission;
 
     [NotNull]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

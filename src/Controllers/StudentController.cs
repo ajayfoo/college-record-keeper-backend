@@ -24,8 +24,6 @@ public class StudentController(CollegeDbContext context) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Student>> AddStudent(Student student)
     {
-        student.Dob = student.Dob.ToUniversalTime();
-        student.YearOfAdmission = student.YearOfAdmission.ToUniversalTime();
         _context.Students.Add(student);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(AddStudent), new { id = student.Id }, student);

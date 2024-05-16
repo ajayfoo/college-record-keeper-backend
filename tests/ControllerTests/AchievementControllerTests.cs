@@ -23,7 +23,7 @@ public class AchievementControllerTests : IClassFixture<WebApplicationFactory<Pr
                     Prize = "Goodies",
                     Level = "College",
                     AchievementTypeId = Guid.Parse("2f2d6239-2e1c-4b39-8660-8eb76c2303ec"),
-                    Year = DateTime.Parse("2022-2-20").ToUniversalTime()
+                    Year = DateTime.Parse("2022-2-20"),
                 }
             },
             new object[]
@@ -34,7 +34,7 @@ public class AchievementControllerTests : IClassFixture<WebApplicationFactory<Pr
                     Prize = "Gold Medal",
                     Level = "International",
                     AchievementTypeId = Guid.Parse("2f2d6239-2e1c-4b39-8660-8eb76c2303ec"),
-                    Year = DateTime.Parse("2022-9-10").ToUniversalTime()
+                    Year = DateTime.Parse("2022-9-10"),
                 }
             },
         };

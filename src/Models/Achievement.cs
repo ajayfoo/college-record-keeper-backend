@@ -17,7 +17,12 @@ public class Achievement
     public required string Prize { get; set; }
 
     [NotNull]
-    public required DateTime Year { get; set; }
+    public required DateTime Year
+    {
+        get { return _year; }
+        set { _year = value.ToUniversalTime(); }
+    }
+    private DateTime _year;
 
     [NotNull]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

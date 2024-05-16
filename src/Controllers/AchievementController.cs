@@ -24,7 +24,6 @@ public class AchievementController(CollegeDbContext context) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Achievement>> AddAchievement(Achievement achievement)
     {
-        achievement.Year = achievement.Year.ToUniversalTime();
         _context.Achievements.Add(achievement);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(AddAchievement), new { id = achievement.Id }, achievement);
