@@ -24,20 +24,11 @@ public class AchievementTypeControllerTests : IClassFixture<WebApplicationFactor
 
     [Theory]
     [MemberData(nameof(Data))]
-    public async Task OnPost_NewAchievementTypeDataMustBeAdded(AchievementType achievementType)
-    {
-        var client = _factory.CreateClient();
-        var response = await client.PostAsJsonAsync(uriStr, achievementType);
-        response.EnsureSuccessStatusCode();
-    }
-
-    [Fact]
-    public async Task OnGet_ExpectedAchievementTypeMustBeRetured()
+    public async Task OnGet_ExpectedAchievementTypeMustBeRetured(AchievementType achievementType)
     {
         var client = _factory.CreateClient();
         Guid id = Guid.NewGuid();
-        AchievementType expectedAchievementType = new AchievementType() { Label = "Co-curricular" };
-        var postResponse = await client.PostAsJsonAsync(uriStr, expectedAchievementType);
+        var postResponse = await client.PostAsJsonAsync(uriStr, achievementType);
         var responseAchievementTypeStream = await postResponse.Content.ReadAsStreamAsync();
         var responseAchievementType = await JsonSerializer.DeserializeAsync<AchievementType>(
             responseAchievementTypeStream,
@@ -49,6 +40,6 @@ public class AchievementTypeControllerTests : IClassFixture<WebApplicationFactor
         }
         var response = await client.GetAsync(uriStr + "/" + responseAchievementType.Id.ToString());
         response.EnsureSuccessStatusCode();
-        Assert.Equivalent(responseAchievementType, expectedAchievementType, strict: true);
+        Assert.Equivalent(responseAchievementType, achievementType, strict: true);
     }
 }

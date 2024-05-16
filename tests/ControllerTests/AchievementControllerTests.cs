@@ -48,17 +48,9 @@ public class AchievementControllerTests : IClassFixture<WebApplicationFactory<Pr
         _output = outputHelper;
     }
 
-    [Theory(Skip = "WIP")]
+    [Theory]
     [MemberData(nameof(Data))]
-    public async Task OnPost_NewAchievementDataMustBeAdded(Achievement achievement)
-    {
-        var client = _factory.CreateClient();
-        var response = await client.PostAsJsonAsync("/achievement", achievement);
-        response.EnsureSuccessStatusCode();
-    }
-
-    [Fact]
-    public async Task OnGet_ExpectedAchievementMustBeRetured()
+    public async Task OnGet_ExpectedAchievementMustBeRetured(Achievement achievement)
     {
         var client = _factory.CreateClient();
         AchievementType achievementType = new AchievementType()
@@ -71,15 +63,7 @@ public class AchievementControllerTests : IClassFixture<WebApplicationFactory<Pr
             achievementType
         );
         achievementTypePostResponse.EnsureSuccessStatusCode();
-        Achievement expectedAchievement = new Achievement()
-        {
-            Name = "World Chess Champion",
-            Prize = "Gold Medal",
-            AchievementTypeId = Guid.Parse("2f2d6239-2e1c-4b39-8660-8eb76c2303ec"),
-            Level = "International",
-            Year = DateTime.Parse("2022-9-10").ToUniversalTime(),
-        };
-        var postResponse = await client.PostAsJsonAsync("/achievement", expectedAchievement);
+        var postResponse = await client.PostAsJsonAsync("/achievement", achievement);
         string content = await postResponse.Content.ReadAsStringAsync();
         _output.WriteLine(content);
         postResponse.EnsureSuccessStatusCode();
@@ -94,6 +78,6 @@ public class AchievementControllerTests : IClassFixture<WebApplicationFactory<Pr
         }
         var response = await client.GetAsync("/achievement/" + responseAchievement.Id.ToString());
         response.EnsureSuccessStatusCode();
-        Assert.Equivalent(responseAchievement, expectedAchievement, strict: true);
+        Assert.Equivalent(responseAchievement, achievement, strict: true);
     }
 }

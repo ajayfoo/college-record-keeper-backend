@@ -23,8 +23,8 @@ public class StudentControllerTests : IClassFixture<WebApplicationFactory<Progra
                     CetPercentile = 95.999,
                     HscPercentage = 69.12,
                     SscPercentage = 76.23,
-                    Dob = DateTime.Parse("2001-10-12"),
-                    YearOfAdmission = DateTime.Parse("2022-2-20")
+                    Dob = DateTime.Parse("2001-10-12").ToUniversalTime(),
+                    YearOfAdmission = DateTime.Parse("2022-2-20").ToUniversalTime(),
                 }
             },
             new object[]
@@ -36,8 +36,8 @@ public class StudentControllerTests : IClassFixture<WebApplicationFactory<Progra
                     CetPercentile = 75.3134,
                     HscPercentage = 39.39,
                     SscPercentage = 66.77,
-                    Dob = DateTime.Parse("999-10-12"),
-                    YearOfAdmission = DateTime.Today
+                    Dob = DateTime.Parse("999-10-12").ToUniversalTime(),
+                    YearOfAdmission = DateTime.Today.ToUniversalTime()
                 }
             },
         };
@@ -49,35 +49,11 @@ public class StudentControllerTests : IClassFixture<WebApplicationFactory<Progra
 
     [Theory]
     [MemberData(nameof(Data))]
-    public async Task OnPost_NewStudentDataMustBeAdded(Student student)
+    public async Task OnGet_ExpectedStudentMustBeRetured(Student student)
     {
         var client = _factory.CreateClient();
-        var response = await client.PostAsJsonAsync("/student", student);
-        response.EnsureSuccessStatusCode();
-    }
-
-    [Fact]
-    public async Task OnGet_ExpectedStudentMustBeRetured()
-    {
-        var client = _factory.CreateClient();
-        Guid id = Guid.NewGuid();
-        Student expectedStudent = new Student()
-        {
-            FirstName = "Jill",
-            MiddleName = "James",
-            Id = id,
-            LastName = "Joe",
-            CetPercentile = 95.999,
-            HscPercentage = 69.12,
-            SscPercentage = 76.23,
-            Dob = DateTime
-                .ParseExact("2001-10-12", "yyyy-MM-dd", CultureInfo.InvariantCulture)
-                .ToUniversalTime(),
-            YearOfAdmission = DateTime
-                .ParseExact("2022-02-20", "yyyy-MM-dd", CultureInfo.InvariantCulture)
-                .ToUniversalTime()
-        };
-        var postResponse = await client.PostAsJsonAsync("/student", expectedStudent);
+        var postResponse = await client.PostAsJsonAsync("/student", student);
+        postResponse.EnsureSuccessStatusCode();
         var responseStudentStream = await postResponse.Content.ReadAsStreamAsync();
         var responseStudent = await JsonSerializer.DeserializeAsync<Student>(
             responseStudentStream,
@@ -89,6 +65,6 @@ public class StudentControllerTests : IClassFixture<WebApplicationFactory<Progra
         }
         var response = await client.GetAsync("/student/" + responseStudent.Id.ToString());
         response.EnsureSuccessStatusCode();
-        Assert.Equivalent(responseStudent, expectedStudent, strict: true);
+        Assert.Equivalent(responseStudent, student, strict: true);
     }
 }
