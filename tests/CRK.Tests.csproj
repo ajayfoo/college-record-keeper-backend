@@ -9,6 +9,7 @@
 		<IsTestProject>true</IsTestProject>
 		<NuGetAudit>false</NuGetAudit>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  	<CodeAnalysisRuleSet>ProjectRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>

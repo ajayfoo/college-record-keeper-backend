@@ -1,0 +1,7 @@
+<RuleSet Name="Project WizBang Rules"
+         ToolsVersion="12.0">
+  <Rules AnalyzerId="System.Runtime.Analyzers"
+         RuleNamespace="System.Runtime.Analyzers">
+    <Rule Id="IDE0160" Action="None" />
+  </Rules>
+</RuleSet>

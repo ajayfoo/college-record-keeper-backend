@@ -8,6 +8,7 @@
 		<UserSecretsId>74d8765b-575e-4b43-b357-9e9860668f13</UserSecretsId>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<NuGetAudit>false</NuGetAudit>
+  	<CodeAnalysisRuleSet>ProjectRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>

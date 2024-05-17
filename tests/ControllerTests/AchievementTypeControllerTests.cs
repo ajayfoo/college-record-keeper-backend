@@ -1,45 +1,42 @@
-namespace CRK.Tests;
-
+using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using CRK.Models;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-// all the rows in the table must be deleted after each test run
-public class AchievementTypeControllerTests : IClassFixture<WebApplicationFactory<Program>>
-{
-    readonly string uriStr = "/achievementtype";
-    private readonly WebApplicationFactory<Program> _factory;
-    public static IEnumerable<object[]> Data =>
-        new List<object[]>
-        {
-            new object[] { new AchievementType() { Label = "Sports" } },
-            new object[] { new AchievementType() { Label = "Extra Curricular" } },
-        };
+namespace CRK.Tests.ControllerTests;
 
-    public AchievementTypeControllerTests(WebApplicationFactory<Program> factory)
-    {
-        _factory = factory;
-    }
+// all the rows in the table must be deleted after each test run
+public class AchievementTypeControllerTests(WebApplicationFactory<Program> factory)
+    : IClassFixture<WebApplicationFactory<Program>>
+{
+    private readonly HttpClient _client = factory.CreateClient();
+    private readonly string uriStr = "/achievementtype";
+    private readonly JsonSerializerOptions jsonSerializerOptions =
+        new() { PropertyNameCaseInsensitive = true };
+    public static TheoryData<AchievementType> Data =>
+        [new() { Label = "Sports" }, new() { Label = "Extra Curricular" },];
 
     [Theory]
     [MemberData(nameof(Data))]
-    public async Task OnGet_ExpectedAchievementTypeMustBeRetured(AchievementType achievementType)
+    public async Task OnGetExpectedAchievementTypeMustBeRetured(AchievementType achievementType)
     {
-        var client = _factory.CreateClient();
-        Guid id = Guid.NewGuid();
-        var postResponse = await client.PostAsJsonAsync(uriStr, achievementType);
-        var responseAchievementTypeStream = await postResponse.Content.ReadAsStreamAsync();
-        var responseAchievementType = await JsonSerializer.DeserializeAsync<AchievementType>(
-            responseAchievementTypeStream,
-            new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }
-        );
+        HttpResponseMessage postResponse = await _client.PostAsJsonAsync(uriStr, achievementType);
+        Assert.StrictEqual(HttpStatusCode.Created, postResponse.StatusCode);
+        Stream responseAchievementTypeStream = await postResponse.Content.ReadAsStreamAsync();
+        AchievementType? responseAchievementType =
+            await JsonSerializer.DeserializeAsync<AchievementType>(
+                responseAchievementTypeStream,
+                jsonSerializerOptions
+            );
         if (responseAchievementType == null)
         {
             Assert.Fail();
         }
-        var response = await client.GetAsync(uriStr + "/" + responseAchievementType.Id.ToString());
-        response.EnsureSuccessStatusCode();
+        HttpResponseMessage response = await _client.GetAsync(
+            uriStr + "/" + responseAchievementType.Id.ToString()
+        );
+        Assert.StrictEqual(HttpStatusCode.OK, response.StatusCode);
         Assert.Equivalent(responseAchievementType, achievementType, strict: true);
     }
 }
