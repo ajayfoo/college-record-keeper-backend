@@ -16,8 +16,8 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    _ = app.UseSwagger();
+    _ = app.UseSwaggerUI();
 }
 app.UseCors(options => options.WithOrigins("http://localhost:8080").AllowAnyHeader());
 app.MapControllers();

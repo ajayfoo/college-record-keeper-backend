@@ -1,6 +1,7 @@
 using CRK.Data;
 using CRK.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRK.Controllers;
 
@@ -14,18 +15,21 @@ public class StudentController(CollegeDbContext context) : ControllerBase
     public ActionResult<Student> GetStudent(Guid id)
     {
         Student? student = _context.Students.Find(id);
-        if (student == null)
-        {
-            return NotFound();
-        }
-        return student;
+        return (student == null) ? NotFound() : student;
+    }
+
+    [HttpGet]
+    [Route("latests")]
+    public async Task<ActionResult<IEnumerable<Student>>> GetLatests()
+    {
+        return await _context.Students.OrderByDescending(s => s.Inserted).Take(5).ToListAsync();
     }
 
     [HttpPost]
     public async Task<ActionResult<Student>> AddStudent(Student student)
     {
-        _context.Students.Add(student);
-        await _context.SaveChangesAsync();
+        _ = _context.Students.Add(student);
+        _ = await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(AddStudent), new { id = student.Id }, student);
     }
 }

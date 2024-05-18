@@ -20,4 +20,7 @@ public class Company
     [NotNull]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
+
+    public DateTime Inserted { get; set; }
+    public DateTime LastUpdated { get; set; }
 }

@@ -17,14 +17,17 @@ public class Achievement
     public required string Prize { get; set; }
 
     [NotNull]
-    public required DateTime Year
+    public required DateTime Date
     {
-        get { return _year; }
-        set { _year = value.ToUniversalTime(); }
+        get => _date;
+        set => _date = value.ToUniversalTime();
     }
-    private DateTime _year;
+    private DateTime _date;
 
     [NotNull]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
+
+    public DateTime Inserted { get; set; }
+    public DateTime LastUpdated { get; set; }
 }

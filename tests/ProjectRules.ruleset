@@ -6,6 +6,6 @@
     <Rule Id="IDE0161" Action="None" />
     <Rule Id="xUnit1045" Action="None" />
     <Rule Id="xUnit1004" Action="None" />
-
+    <Rule Id="IDE0008" Action="None" />
   </Rules>
 </RuleSet>

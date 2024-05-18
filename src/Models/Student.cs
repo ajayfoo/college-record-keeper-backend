@@ -24,20 +24,23 @@ public class Student
     [NotNull]
     public DateTime Dob
     {
-        get { return _dob; }
-        set { _dob = value.ToUniversalTime(); }
+        get => _dob;
+        set => _dob = value.ToUniversalTime();
     }
     private DateTime _dob;
 
     [NotNull]
     public DateTime YearOfAdmission
     {
-        get { return _yearOfAdmission; }
-        set { _yearOfAdmission = value.ToUniversalTime(); }
+        get => _yearOfAdmission;
+        set => _yearOfAdmission = value.ToUniversalTime();
     }
     private DateTime _yearOfAdmission;
 
     [NotNull]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
+
+    public DateTime Inserted { get; set; }
+    public DateTime LastUpdated { get; set; }
 }
