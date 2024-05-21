@@ -1,5 +1,6 @@
 using CRK.Data;
 using CRK.Models;
+using CRK.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,5 +39,17 @@ public class StudentController(CollegeDbContext context) : ControllerBase
     {
         int deletedCount = _context.Students.Where(student => student.Id == id).ExecuteDelete();
         return (deletedCount != 1) ? NotFound() : NoContent();
+    }
+
+    [Route("report/{id}")]
+    public ActionResult<Student> GetStudentReport(Guid id)
+    {
+        Student? student = _context.Students.Where(student => student.Id == id).SingleOrDefault();
+        if (student == null)
+        {
+            return NotFound();
+        }
+        byte[] pdf = ReportGenerator.Generate(student);
+        return File(pdf, "application/pdf", "hello-world.pdf");
     }
 }
