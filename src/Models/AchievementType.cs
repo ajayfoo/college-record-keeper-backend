@@ -6,7 +6,7 @@ namespace CRK.Models;
 public class AchievementType
 {
     [NotNull]
-    public required string Label { get; set; }
+    public string? Label { get; set; }
 
     [NotNull]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

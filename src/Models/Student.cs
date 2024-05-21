@@ -6,11 +6,12 @@ namespace CRK.Models;
 public class Student
 {
     [NotNull]
-    public required string FirstName { get; set; }
+    public string? FirstName { get; set; }
+
     public string? MiddleName { get; set; }
 
     [NotNull]
-    public required string LastName { get; set; }
+    public string? LastName { get; set; }
 
     [NotNull]
     public double CetPercentile { get; set; }

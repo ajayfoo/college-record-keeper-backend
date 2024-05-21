@@ -6,7 +6,7 @@ namespace CRK.Models;
 public class Company
 {
     [NotNull]
-    public required string Name { get; set; }
+    public string? Name { get; set; }
 
     [NotNull]
     public decimal MiniumSalary { get; set; }

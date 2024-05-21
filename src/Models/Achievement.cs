@@ -6,18 +6,18 @@ namespace CRK.Models;
 public class Achievement
 {
     [NotNull]
-    public required string Name { get; set; }
+    public string? Name { get; set; }
 
     [NotNull]
-    public required string Level { get; set; }
+    public string? Level { get; set; }
 
-    public required Guid AchievementTypeId { get; set; }
-
-    [NotNull]
-    public required string Prize { get; set; }
+    public Guid AchievementTypeId { get; set; }
 
     [NotNull]
-    public required DateTime Date
+    public string? Prize { get; set; }
+
+    [NotNull]
+    public DateTime Date
     {
         get => _date;
         set => _date = value.ToUniversalTime();

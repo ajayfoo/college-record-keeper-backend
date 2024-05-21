@@ -32,4 +32,11 @@ public class StudentController(CollegeDbContext context) : ControllerBase
         _ = await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(AddStudent), new { id = student.Id }, student);
     }
+
+    [HttpDelete("{id}")]
+    public ActionResult<Student> DeleteStudent(Guid id)
+    {
+        int deletedCount = _context.Students.Where(student => student.Id == id).ExecuteDelete();
+        return (deletedCount != 1) ? NotFound() : NoContent();
+    }
 }
