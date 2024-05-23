@@ -16,6 +16,10 @@ builder
     .Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<CollegeDbContext>();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.Name = "main";
+});
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition(
