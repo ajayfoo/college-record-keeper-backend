@@ -1,12 +1,13 @@
 using CRK.Data;
 using CRK.Models;
 using CRK.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRK.Controllers;
 
-[ApiController]
+[ApiController, Authorize]
 [Route("[controller]")]
 public class StudentController(CollegeDbContext context) : ControllerBase
 {
@@ -41,6 +42,7 @@ public class StudentController(CollegeDbContext context) : ControllerBase
         return (deletedCount != 1) ? NotFound() : NoContent();
     }
 
+    [HttpGet]
     [Route("report/{id}")]
     public ActionResult<Student> GetStudentReport(Guid id)
     {
