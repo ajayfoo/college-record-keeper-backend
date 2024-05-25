@@ -50,6 +50,14 @@ app.UseCors(options =>
 );
 
 app.MapIdentityApi<IdentityUser>();
+app.MapPost(
+        "/logout",
+        async (SignInManager<IdentityUser> signInManager) =>
+        {
+            await signInManager.SignOutAsync().ConfigureAwait(false);
+        }
+    )
+    .RequireAuthorization();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
