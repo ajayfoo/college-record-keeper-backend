@@ -4,6 +4,7 @@ using CRK.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 
 namespace CRK.Controllers;
 
@@ -20,10 +21,25 @@ public class StudentController(CollegeDbContext context) : ControllerBase
         return (student == null) ? NotFound() : student;
     }
 
-    [HttpGet("find/{firstName}")]
-    public async Task<ActionResult<IEnumerable<Student>>> GetStudentOfFirstName(string firstName)
+    [HttpPost("filtered")]
+    public async Task<ActionResult<IEnumerable<Student>>> GetFilteredStudent(
+        [FromBody] JObject jobj
+    )
     {
-        return await _context.Students.Where(s => s.FirstName == firstName).ToListAsync();
+        dynamic obj = jobj;
+        string firstName = obj.firstName;
+        int year = obj.yearOfAdmission;
+        return (firstName == "" && year == 0)
+            ? await _context.Students.OrderByDescending(s => s.Inserted).Take(5).ToListAsync()
+            : (firstName == "")
+                ? await _context.Students.Where(s => s.YearOfAdmission.Year == year).ToListAsync()
+                : (year == 0)
+                    ? await _context.Students.Where(s => s.FirstName == firstName).ToListAsync()
+                    : await _context
+                        .Students.Where(s =>
+                            s.FirstName == firstName && s.YearOfAdmission.Year == year
+                        )
+                        .ToListAsync();
     }
 
     [HttpGet("yearsOfAdmission")]

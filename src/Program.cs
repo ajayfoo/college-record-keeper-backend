@@ -5,8 +5,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
-
+builder.Services.AddControllers().AddNewtonsoftJson();
 var connectionString =
     builder.Configuration.GetConnectionString("College")
     + builder.Configuration["CollegeDbPassword"];
