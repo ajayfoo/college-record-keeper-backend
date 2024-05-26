@@ -1,10 +1,11 @@
 using CRK.Data;
 using CRK.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRK.Controllers;
 
-[ApiController]
+[ApiController, Authorize]
 [Route("[controller]")]
 public class AchievementTypeController(CollegeDbContext context) : ControllerBase
 {
@@ -14,11 +15,7 @@ public class AchievementTypeController(CollegeDbContext context) : ControllerBas
     public ActionResult<AchievementType> GetAchievementType(Guid id)
     {
         AchievementType? achievementType = _context.AchievementTypes.Find(id);
-        if (achievementType == null)
-        {
-            return NotFound();
-        }
-        return achievementType;
+        return (achievementType == null) ? NotFound() : achievementType;
     }
 
     [HttpPost]
@@ -26,8 +23,8 @@ public class AchievementTypeController(CollegeDbContext context) : ControllerBas
         AchievementType achievementType
     )
     {
-        _context.AchievementTypes.Add(achievementType);
-        await _context.SaveChangesAsync();
+        _ = _context.AchievementTypes.Add(achievementType);
+        _ = await _context.SaveChangesAsync();
         return CreatedAtAction(
             nameof(AddAchievementType),
             new { id = achievementType.Id },

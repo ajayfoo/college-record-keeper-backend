@@ -20,6 +20,18 @@ public class StudentController(CollegeDbContext context) : ControllerBase
         return (student == null) ? NotFound() : student;
     }
 
+    [HttpGet("find/{firstName}")]
+    public async Task<ActionResult<IEnumerable<Student>>> GetStudentOfFirstName(string firstName)
+    {
+        return await _context.Students.Where(s => s.FirstName == firstName).ToListAsync();
+    }
+
+    [HttpGet("yearsOfAdmission")]
+    public async Task<ActionResult<IEnumerable<int>>> GetYearsOfAdmission()
+    {
+        return await _context.Students.Select(s => s.YearOfAdmission.Year).Distinct().ToListAsync();
+    }
+
     [HttpGet]
     [Route("latests")]
     public async Task<ActionResult<IEnumerable<Student>>> GetLatests()
