@@ -9,6 +9,6 @@ public class CollegeDbContext(DbContextOptions<CollegeDbContext> options)
 {
     public DbSet<Student> Students { get; set; } = null!;
     public DbSet<AchievementType> AchievementTypes { get; set; } = null!;
-    public DbSet<Achievement> Achievements { get; set; } = null!;
+    public DbSet<AchievementLevel> AchievementLevels { get; set; } = null!;
     public DbSet<Company> Companies { get; set; } = null!;
 }

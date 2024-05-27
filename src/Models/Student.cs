@@ -1,44 +1,21 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 
 namespace CRK.Models;
 
 public class Student
 {
-    [NotNull]
-    public string? FirstName { get; set; }
-
+    public string FirstName { get; set; } = null!;
     public string? MiddleName { get; set; }
-
-    [NotNull]
-    public string? LastName { get; set; }
-
-    [NotNull]
+    public string LastName { get; set; } = null!;
     public double CetPercentile { get; set; }
-
-    [NotNull]
     public double HscPercentage { get; set; }
-
-    [NotNull]
     public double SscPercentage { get; set; }
+    public DateTime DateOfBirth { get; set; }
+    public DateTime YearOfAdmission { get; set; }
+    public int? AcademicScore { get; set; }
+    public Achievement[]? Achievements { get; set; }
+    public Employment? Employment { get; set; }
 
-    [NotNull]
-    public DateTime Dob
-    {
-        get => _dob;
-        set => _dob = value.ToUniversalTime();
-    }
-    private DateTime _dob;
-
-    [NotNull]
-    public DateTime YearOfAdmission
-    {
-        get => _yearOfAdmission;
-        set => _yearOfAdmission = value.ToUniversalTime();
-    }
-    private DateTime _yearOfAdmission;
-
-    [NotNull]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
