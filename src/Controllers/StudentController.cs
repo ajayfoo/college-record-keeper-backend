@@ -32,20 +32,18 @@ public class StudentController(CollegeDbContext context) : ControllerBase
         return (firstName == "" && year == 0)
             ? await _context.Students.OrderByDescending(s => s.Inserted).Take(5).ToListAsync()
             : (firstName == "")
-                ? await _context.Students.Where(s => s.YearOfAdmission.Year == year).ToListAsync()
+                ? await _context.Students.Where(s => s.YearOfAdmission == year).ToListAsync()
                 : (year == 0)
                     ? await _context.Students.Where(s => s.FirstName == firstName).ToListAsync()
                     : await _context
-                        .Students.Where(s =>
-                            s.FirstName == firstName && s.YearOfAdmission.Year == year
-                        )
+                        .Students.Where(s => s.FirstName == firstName && s.YearOfAdmission == year)
                         .ToListAsync();
     }
 
     [HttpGet("yearsOfAdmission")]
     public async Task<ActionResult<IEnumerable<int>>> GetYearsOfAdmission()
     {
-        return await _context.Students.Select(s => s.YearOfAdmission.Year).Distinct().ToListAsync();
+        return await _context.Students.Select(s => s.YearOfAdmission).Distinct().ToListAsync();
     }
 
     [HttpGet]

@@ -11,7 +11,7 @@ public class Student
     public double HscPercentage { get; set; }
     public double SscPercentage { get; set; }
     public DateTime DateOfBirth { get; set; }
-    public DateTime YearOfAdmission { get; set; }
+    public int YearOfAdmission { get; set; }
     public int? AcademicScore { get; set; }
     public Achievement[]? Achievements { get; set; }
     public Employment? Employment { get; set; }

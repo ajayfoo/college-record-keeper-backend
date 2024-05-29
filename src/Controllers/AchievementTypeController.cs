@@ -2,6 +2,7 @@ using CRK.Data;
 using CRK.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRK.Controllers;
 
@@ -30,5 +31,11 @@ public class AchievementTypeController(CollegeDbContext context) : ControllerBas
             new { id = achievementType.Id },
             achievementType
         );
+    }
+
+    [HttpGet("labels")]
+    public async Task<ActionResult<IEnumerable<string>>> GetLabels()
+    {
+        return await _context.AchievementTypes.Select(a => a.Label).ToListAsync();
     }
 }
