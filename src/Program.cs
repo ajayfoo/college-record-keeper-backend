@@ -57,6 +57,30 @@ app.MapPost(
         }
     )
     .RequireAuthorization();
+app.MapGet(
+        "/companies",
+        async (CollegeDbContext ctx) =>
+        {
+            return await ctx.Companies.ToListAsync();
+        }
+    )
+    .RequireAuthorization();
+app.MapGet(
+        "/achievementTypes",
+        async (CollegeDbContext ctx) =>
+        {
+            return await ctx.AchievementTypes.ToListAsync();
+        }
+    )
+    .RequireAuthorization();
+app.MapGet(
+        "/achievementLevels",
+        async (CollegeDbContext ctx) =>
+        {
+            return await ctx.AchievementLevels.ToListAsync();
+        }
+    )
+    .RequireAuthorization();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

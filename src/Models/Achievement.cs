@@ -6,8 +6,8 @@ public class Achievement
 {
     public string Name { get; set; } = null!;
 
-    public AchievementLevel Level { get; set; } = null!;
-    public Guid AchievementTypeId { get; set; }
+    public AchievementLevel AchievementLevel { get; set; } = null!;
+    public AchievementType AchievementType { get; set; } = null!;
 
     public string Prize { get; set; } = null!;
     public DateTime Date { get; set; }
