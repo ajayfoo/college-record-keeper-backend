@@ -1,4 +1,5 @@
 using CRK.Data;
+using CRK.Dtos;
 using CRK.Models;
 using CRK.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -54,11 +55,28 @@ public class StudentController(CollegeDbContext context) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Student>> AddStudent(Student student)
+    public async Task<ActionResult<Student>> AddStudent(StudentDto studentDto)
     {
-        _ = _context.Students.Add(student);
+        Student newStudent = studentDto.ToStudent();
+        newStudent.Id = Guid.NewGuid();
+
+        Console.WriteLine("Student ID: " + newStudent.Id);
+
+        Achievement achievement = studentDto.AchievementDto.ToAchievement();
+        achievement.AchievementLevel = _context
+            .AchievementLevels.Where(a => a.Id == achievement.AchievementLevelId)
+            .Single();
+        achievement.AchievementType = _context
+            .AchievementTypes.Where(a => a.Id == achievement.AchievementTypeId)
+            .Single();
+        achievement.StudentId = newStudent.Id;
+        achievement.Student = newStudent;
+        newStudent.Achievements = _context
+            .Achievements.Where(a => a.StudentId == newStudent.Id)
+            .ToList();
+        _ = _context.Students.Add(newStudent);
         _ = await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(AddStudent), new { id = student.Id }, student);
+        return CreatedAtAction(nameof(AddStudent), new { id = newStudent.Id }, newStudent);
     }
 
     [HttpDelete("{id}")]

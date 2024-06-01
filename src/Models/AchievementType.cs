@@ -1,15 +1,15 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace CRK.Models;
 
 public class AchievementType
 {
-    [NotNull]
-    public string? Label { get; set; }
+    public string Label { get; set; } = null!;
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
+    [JsonIgnore]
     public ICollection<Achievement> Achievements { get; } = new List<Achievement>();
 }

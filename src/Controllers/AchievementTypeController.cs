@@ -32,10 +32,4 @@ public class AchievementTypeController(CollegeDbContext context) : ControllerBas
             achievementType
         );
     }
-
-    [HttpGet("labels")]
-    public async Task<ActionResult<IEnumerable<string>>> GetLabels()
-    {
-        return await _context.AchievementTypes.Select(a => a.Label).ToListAsync();
-    }
 }

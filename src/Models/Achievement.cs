@@ -5,10 +5,6 @@ namespace CRK.Models;
 public class Achievement
 {
     public string Name { get; set; } = null!;
-
-    public AchievementLevel AchievementLevel { get; set; } = null!;
-    public AchievementType AchievementType { get; set; } = null!;
-
     public string Prize { get; set; } = null!;
     public DateTime Date { get; set; }
 
@@ -17,4 +13,13 @@ public class Achievement
 
     public DateTime Inserted { get; set; }
     public DateTime LastUpdated { get; set; }
+
+    public AchievementLevel AchievementLevel { get; set; } = null!;
+    public Guid AchievementLevelId { get; set; }
+
+    public AchievementType AchievementType { get; set; } = null!;
+    public Guid AchievementTypeId { get; set; }
+
+    public Guid? StudentId { get; set; }
+    public Student? Student { get; set; }
 }

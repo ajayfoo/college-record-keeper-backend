@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace CRK.Models;
 
@@ -11,4 +12,7 @@ public class Company
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
+
+    [JsonIgnore]
+    public ICollection<Employment> Posts { get; } = new List<Employment>();
 }
