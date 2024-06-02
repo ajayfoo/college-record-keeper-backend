@@ -21,5 +21,6 @@ public class Achievement
     public Guid AchievementTypeId { get; set; }
 
     public Guid? StudentId { get; set; }
+
     public Student? Student { get; set; }
 }

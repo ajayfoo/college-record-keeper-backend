@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace CRK.Models;
 
@@ -16,7 +15,6 @@ public class Student
     public int? AcademicScore { get; set; }
     public virtual ICollection<Achievement> Achievements { get; set; } = new List<Achievement>();
 
-    [JsonIgnore]
     public Employment? Employment { get; set; }
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

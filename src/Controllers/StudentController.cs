@@ -74,7 +74,9 @@ public class StudentController(CollegeDbContext context) : ControllerBase
         newStudent.Achievements = _context
             .Achievements.Where(a => a.StudentId == newStudent.Id)
             .ToList();
+
         _ = _context.Students.Add(newStudent);
+        _ = _context.Achievements.Add(achievement);
         _ = await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(AddStudent), new { id = newStudent.Id }, newStudent);
     }
