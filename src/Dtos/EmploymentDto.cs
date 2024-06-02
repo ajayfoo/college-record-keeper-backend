@@ -1,9 +1,8 @@
-using CRK.Data;
 using CRK.Models;
 
 namespace CRK.Dtos;
 
-public class EmploymentDto(CollegeDbContext context)
+public class EmploymentDto()
 {
     public bool IsEmployed { get; set; }
     public Guid? CompanyId { get; set; }
@@ -13,16 +12,10 @@ public class EmploymentDto(CollegeDbContext context)
 
     public Employment ToEmployment()
     {
-        Company? company = null;
-        if (IsEmployed)
-        {
-            company = context.Companies.First(c => c.Id == CompanyId);
-        }
         return new()
         {
             IsEmployed = IsEmployed,
             CompanyId = CompanyId,
-            Company = company,
             Salary = Salary,
             TenureStart = TenureStart,
             TenureEnd = TenureEnd,

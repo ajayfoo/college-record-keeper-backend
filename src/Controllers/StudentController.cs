@@ -60,8 +60,6 @@ public class StudentController(CollegeDbContext context) : ControllerBase
         Student newStudent = studentDto.ToStudent();
         newStudent.Id = Guid.NewGuid();
 
-        Console.WriteLine("Student ID: " + newStudent.Id);
-
         Achievement achievement = studentDto.AchievementDto.ToAchievement();
         achievement.AchievementLevel = _context
             .AchievementLevels.Where(a => a.Id == achievement.AchievementLevelId)
@@ -71,12 +69,17 @@ public class StudentController(CollegeDbContext context) : ControllerBase
             .Single();
         achievement.StudentId = newStudent.Id;
         achievement.Student = newStudent;
-        newStudent.Achievements = _context
-            .Achievements.Where(a => a.StudentId == newStudent.Id)
-            .ToList();
+
+        newStudent.Achievements = [achievement];
+
+        Employment employment = studentDto.EmploymentDto.ToEmployment();
+        employment.Company = _context.Companies.Where(c => c.Id == employment.CompanyId).Single();
+        employment.StudentId = newStudent.Id;
+        employment.Student = newStudent;
+
+        newStudent.Employment = employment;
 
         _ = _context.Students.Add(newStudent);
-        _ = _context.Achievements.Add(achievement);
         _ = await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(AddStudent), new { id = newStudent.Id }, newStudent);
     }
