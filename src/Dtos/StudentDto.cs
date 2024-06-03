@@ -26,10 +26,11 @@ public class StudentDto
             CetPercentile = CetPercentile,
             HscPercentage = HscPercentage,
             SscPercentage = SscPercentage,
-            DateOfBirth = DateOfBirth,
+            DateOfBirth = DateOfBirth.ToUniversalTime(),
             YearOfAdmission = YearOfAdmission,
             AcademicScore = AcademicScore,
             Employment = EmploymentDto.ToEmployment(),
+            Id = Guid.NewGuid(),
             Inserted = DateTime.UtcNow,
             LastUpdated = DateTime.UtcNow,
         };

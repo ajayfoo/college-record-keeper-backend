@@ -17,8 +17,8 @@ public class EmploymentDto()
             IsEmployed = IsEmployed,
             CompanyId = CompanyId,
             Salary = Salary,
-            TenureStart = TenureStart,
-            TenureEnd = TenureEnd,
+            TenureStart = TenureStart?.ToUniversalTime(),
+            TenureEnd = TenureEnd?.ToUniversalTime(),
             Id = Guid.NewGuid(),
         };
     }

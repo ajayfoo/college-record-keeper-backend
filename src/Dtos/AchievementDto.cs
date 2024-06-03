@@ -16,7 +16,7 @@ public class AchievementDto()
         {
             Name = Name,
             Prize = Prize,
-            Date = Date,
+            Date = Date.ToUniversalTime(),
             Id = Guid.NewGuid(),
             Inserted = DateTime.UtcNow,
             LastUpdated = DateTime.UtcNow,
