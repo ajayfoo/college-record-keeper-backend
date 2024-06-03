@@ -73,7 +73,12 @@ public class StudentController(CollegeDbContext context) : ControllerBase
         newStudent.Achievements = [achievement];
 
         Employment employment = studentDto.EmploymentDto.ToEmployment();
-        employment.Company = _context.Companies.Where(c => c.Id == employment.CompanyId).Single();
+        if (employment.IsEmployed)
+        {
+            employment.Company = _context
+                .Companies.Where(c => c.Id == employment.CompanyId)
+                .Single();
+        }
         employment.StudentId = newStudent.Id;
         employment.Student = newStudent;
 
