@@ -13,7 +13,7 @@ public class StudentDto
     public DateTime DateOfBirth { get; set; }
     public int YearOfAdmission { get; set; }
     public int? AcademicScore { get; set; }
-    public AchievementDto AchievementDto { get; set; } = null!;
+    public List<AchievementDto> AchievementsDto { get; set; } = [];
     public EmploymentDto EmploymentDto { get; set; } = null!;
 
     public Student ToStudent()

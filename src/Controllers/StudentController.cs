@@ -60,17 +60,21 @@ public class StudentController(CollegeDbContext context) : ControllerBase
         Student newStudent = studentDto.ToStudent();
         newStudent.Id = Guid.NewGuid();
 
-        Achievement achievement = studentDto.AchievementDto.ToAchievement();
-        achievement.AchievementLevel = _context
-            .AchievementLevels.Where(a => a.Id == achievement.AchievementLevelId)
-            .Single();
-        achievement.AchievementType = _context
-            .AchievementTypes.Where(a => a.Id == achievement.AchievementTypeId)
-            .Single();
-        achievement.StudentId = newStudent.Id;
-        achievement.Student = newStudent;
-
-        newStudent.Achievements = [achievement];
+        newStudent.Achievements = studentDto
+            .AchievementsDto.Select(ad =>
+            {
+                var ach = ad.ToAchievement();
+                ach.AchievementLevel = _context
+                    .AchievementLevels.Where(a => a.Id == ach.AchievementLevelId)
+                    .Single();
+                ach.AchievementType = _context
+                    .AchievementTypes.Where(a => a.Id == ach.AchievementTypeId)
+                    .Single();
+                ach.StudentId = newStudent.Id;
+                ach.Student = newStudent;
+                return ach;
+            })
+            .ToList();
 
         Employment employment = studentDto.EmploymentDto.ToEmployment();
         if (employment.IsEmployed)
