@@ -20,7 +20,7 @@ public class Achievement
     public AchievementType AchievementType { get; set; } = null!;
     public Guid AchievementTypeId { get; set; }
 
-    public Guid? StudentId { get; set; }
+    public Guid StudentId { get; set; }
 
-    public Student? Student { get; set; }
+    public Student Student { get; set; } = null!;
 }

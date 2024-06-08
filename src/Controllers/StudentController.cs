@@ -30,14 +30,31 @@ public class StudentController(CollegeDbContext context) : ControllerBase
         dynamic obj = jobj;
         string firstName = obj.firstName;
         int year = obj.yearOfAdmission;
+        bool isEmployed = obj.isEmployed;
         return (firstName == "" && year == 0)
-            ? await _context.Students.OrderByDescending(s => s.Inserted).Take(5).ToListAsync()
+            ? await _context
+                .Students.Where(s => s.Employment.IsEmployed == isEmployed)
+                .OrderByDescending(s => s.Inserted)
+                .Take(5)
+                .ToListAsync()
             : (firstName == "")
-                ? await _context.Students.Where(s => s.YearOfAdmission == year).ToListAsync()
+                ? await _context
+                    .Students.Where(s =>
+                        s.YearOfAdmission == year && s.Employment.IsEmployed == isEmployed
+                    )
+                    .ToListAsync()
                 : (year == 0)
-                    ? await _context.Students.Where(s => s.FirstName == firstName).ToListAsync()
+                    ? await _context
+                        .Students.Where(s =>
+                            s.FirstName == firstName && s.Employment.IsEmployed == isEmployed
+                        )
+                        .ToListAsync()
                     : await _context
-                        .Students.Where(s => s.FirstName == firstName && s.YearOfAdmission == year)
+                        .Students.Where(s =>
+                            s.FirstName == firstName
+                            && s.YearOfAdmission == year
+                            && s.Employment.IsEmployed == isEmployed
+                        )
                         .ToListAsync();
     }
 
@@ -64,14 +81,14 @@ public class StudentController(CollegeDbContext context) : ControllerBase
             .AchievementsDto.Select(ad =>
             {
                 var ach = ad.ToAchievement();
+                ach.StudentId = newStudent.Id;
+                ach.Student = newStudent;
                 ach.AchievementLevel = _context
                     .AchievementLevels.Where(a => a.Id == ach.AchievementLevelId)
                     .Single();
                 ach.AchievementType = _context
                     .AchievementTypes.Where(a => a.Id == ach.AchievementTypeId)
                     .Single();
-                ach.StudentId = newStudent.Id;
-                ach.Student = newStudent;
                 return ach;
             })
             .ToList();

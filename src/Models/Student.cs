@@ -15,7 +15,7 @@ public class Student
     public int? AcademicScore { get; set; }
     public virtual ICollection<Achievement> Achievements { get; set; } = new List<Achievement>();
 
-    public Employment? Employment { get; set; }
+    public Employment Employment { get; set; } = null!;
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
