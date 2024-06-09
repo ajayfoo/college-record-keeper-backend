@@ -1,7 +1,7 @@
 using CRK.Data;
 using CRK.Dtos;
 using CRK.Models;
-using CRK.Utils;
+using CRK.Report;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -121,12 +121,13 @@ public class StudentController(CollegeDbContext context) : ControllerBase
     [Route("report/{id}")]
     public ActionResult<Student> GetStudentReport(Guid id)
     {
-        Student? student = _context.Students.Where(student => student.Id == id).SingleOrDefault();
-        if (student == null)
-        {
-            return NotFound();
-        }
-        byte[] pdf = ReportGenerator.Generate(student);
+        // Student? student = _context.Students.Where(student => student.Id == id).SingleOrDefault();
+        // if (student == null)
+        // {
+        //     return NotFound();
+        // }
+        Console.WriteLine(id);
+        byte[] pdf = ReportGenerator.GenerateStudentReport();
         return File(pdf, "application/pdf", "hello-world.pdf");
     }
 }
