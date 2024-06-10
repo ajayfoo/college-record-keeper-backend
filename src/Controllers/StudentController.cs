@@ -128,8 +128,11 @@ public class StudentController(CollegeDbContext context) : ControllerBase
     {
         Student? student = _context
             .Students.Where(s => s.Id == id)
-            .Include(s => s.Achievements)
             .Include(s => s.Employment.Company)
+            .Include(s => s.Achievements)
+            .ThenInclude(a => a.AchievementType)
+            .Include(s => s.Achievements)
+            .ThenInclude(a => a.AchievementLevel)
             .SingleOrDefault();
         if (student == null)
         {
