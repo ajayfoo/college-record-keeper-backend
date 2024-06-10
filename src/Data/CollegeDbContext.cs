@@ -12,6 +12,7 @@ public class CollegeDbContext(DbContextOptions<CollegeDbContext> options)
     public DbSet<AchievementLevel> AchievementLevels { get; set; } = null!;
     public DbSet<Achievement> Achievements { get; set; } = null!;
     public DbSet<Company> Companies { get; set; } = null!;
+    public DbSet<Employment> Employments { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -1,10 +1,12 @@
+using CRK.Models;
+
 namespace CRK.Report;
 
 public static class ReportDataSource
 {
-    public static ReportModel GetReportDetails()
+    public static ReportModel GetReportDetails(Student student)
     {
-        return GetDummyReportDetails();
+        return new() { Student = student };
     }
 
     private static ReportModel GetDummyReportDetails()

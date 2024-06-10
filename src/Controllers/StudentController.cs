@@ -68,7 +68,12 @@ public class StudentController(CollegeDbContext context) : ControllerBase
     [Route("latests")]
     public async Task<ActionResult<IEnumerable<Student>>> GetLatests()
     {
-        return await _context.Students.OrderByDescending(s => s.Inserted).Take(5).ToListAsync();
+        return await _context
+            .Students.Include(s => s.Achievements)
+            .Include(s => s.Employment.Company)
+            .OrderByDescending(s => s.Inserted)
+            .Take(5)
+            .ToListAsync();
     }
 
     [HttpPost]
@@ -121,13 +126,16 @@ public class StudentController(CollegeDbContext context) : ControllerBase
     [Route("report/{id}")]
     public ActionResult<Student> GetStudentReport(Guid id)
     {
-        // Student? student = _context.Students.Where(student => student.Id == id).SingleOrDefault();
-        // if (student == null)
-        // {
-        //     return NotFound();
-        // }
-        Console.WriteLine(id);
-        byte[] pdf = ReportGenerator.GenerateStudentReport();
-        return File(pdf, "application/pdf", "hello-world.pdf");
+        Student? student = _context
+            .Students.Where(s => s.Id == id)
+            .Include(s => s.Achievements)
+            .Include(s => s.Employment.Company)
+            .SingleOrDefault();
+        if (student == null)
+        {
+            return NotFound();
+        }
+        byte[] pdf = ReportGenerator.GenerateStudentReport(student);
+        return File(pdf, "application/pdf", "student-" + student.Id + ".pdf");
     }
 }
