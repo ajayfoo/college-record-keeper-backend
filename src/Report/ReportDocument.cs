@@ -107,9 +107,9 @@ public class ReportDocument(ReportModel model) : IDocument
                                     _ = t.Span("Academic").Bold().FontSize(18);
                                 });
                             col.Spacing(5);
-                            _ = col.Item().Text("CET Score: " + Model.Student.CetPercentile);
-                            _ = col.Item().Text("HSC: " + Model.Student.HscPercentage);
-                            _ = col.Item().Text("SSC: " + Model.Student.SscPercentage);
+                            _ = col.Item().Text("CET Percentile: " + Model.Student.CetPercentile);
+                            _ = col.Item().Text("HSC: " + Model.Student.HscPercentage + "%");
+                            _ = col.Item().Text("SSC: " + Model.Student.SscPercentage + "%");
                             _ = col.Item().Text("Score: " + Model.Student.AcademicScore);
                         });
                     row.Spacing(25);
@@ -156,6 +156,10 @@ public class ReportDocument(ReportModel model) : IDocument
                                 );
                         });
                 });
+            if (Model.Student.Achievements.Count == 0)
+            {
+                return;
+            }
             col.Item()
                 .BorderBottom(1)
                 .Text(t =>

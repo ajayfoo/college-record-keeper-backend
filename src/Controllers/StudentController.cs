@@ -31,6 +31,21 @@ public class StudentController(CollegeDbContext context) : ControllerBase
         string firstName = obj.firstName;
         int year = obj.yearOfAdmission;
         bool isEmployed = obj.isEmployed;
+        bool noPlacementFilter = obj.noPlacementFilter;
+        if (noPlacementFilter)
+        {
+            return (firstName == "" && year == 0)
+                ? await _context.Students.OrderByDescending(s => s.Inserted).Take(5).ToListAsync()
+                : (firstName == "")
+                    ? await _context.Students.Where(s => s.YearOfAdmission == year).ToListAsync()
+                    : (year == 0)
+                        ? await _context.Students.Where(s => s.FirstName == firstName).ToListAsync()
+                        : await _context
+                            .Students.Where(s =>
+                                s.FirstName == firstName && s.YearOfAdmission == year
+                            )
+                            .ToListAsync();
+        }
         return (firstName == "" && year == 0)
             ? await _context
                 .Students.Where(s => s.Employment.IsEmployed == isEmployed)
